@@ -1,7 +1,9 @@
 const express = require("express");
-const next = require("next");
+const bodyParser = require("body-parser");
 
+const next = require("next");
 const dev = process.env.NODE_ENV !== "production";
+
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -16,6 +18,11 @@ app
 		server.listen(3000, (err) => {
 			if (err) throw err;
 			console.log("> Ready on http://localhost:3000");
+		});
+
+		server.use(bodyParser.json()).post("/api/email", (req, res) => {
+			const { email = "", msg = "" } = req.body;
+			req.send("success");
 		});
 	})
 	.catch((ex) => {
