@@ -1,9 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const dotenv = require('dotenv');
+const sendinblue = require("./api/sendinblue");
 const next = require("next");
-const dev = process.env.NODE_ENV !== "production";
 
+dotenv.config();
+
+const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -21,7 +24,20 @@ app
 		});
 
 		server.use(bodyParser.json()).post("/api/email", (req, res) => {
-			const { email = "", msg = "" } = req.body;
+			const { msg = ''} = req.body;
+			let sendSmtpEmail = {
+				to: [{
+					email: 'hongphuc.dthp@gmail.com'
+				}],
+				templateId: 1,
+				params: {
+					name: 'Malith',
+					subject: 'Someone sent you a link',
+					text: msg
+				}
+			};
+
+			sendinblue(sendSmtpEmail);
 			res.send("success");
 		});
 	})
