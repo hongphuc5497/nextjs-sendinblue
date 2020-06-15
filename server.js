@@ -22,7 +22,7 @@ app
 
 		server.use(bodyParser.json()).post("/api/email", (req, res) => {
 			const { email = "", msg = "" } = req.body;
-			req.send("success");
+			res.send("success");
 		});
 	})
 	.catch((ex) => {

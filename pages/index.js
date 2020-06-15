@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react'
+import { sendMail } from "../services/sendMail";
+
 export default function HomePage() {
 	const buttonWrapperStyle = {
 		color: "white",
@@ -10,10 +13,20 @@ export default function HomePage() {
 		borderRadius: "3px",
 	};
 
+	async function handleOnClick() {
+		let res = await sendMail('https://craftcode.design/');
+		console.log(res);
+	}
+
 	return (
 		<div style={buttonWrapperStyle}>
 			<input type="text" value="https://craftcode.design/" />
-			<button>Send me this url</button>
+			<button
+				onClick={() => handleOnClick()}
+			>
+				Send me this url
+			</button>
 		</div>
 	);
 }
+
